@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link rel="stylesheet" type="text/css" href="css/reset.css" />
+		<link rel="stylesheet" type="text/css" href="css/style.css" />
+		<script src="js/wH.js" type="text/javascript" charset="utf-8"></script>
+		<script src="" type="text/javascript" charset="utf-8"></script>
+		<script src="js/jquery-1.12.4.min.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<script type="text/javascript">
+		var roll = {
+			Msgs: ["一等獎", "二等獎", "三等獎", "四等獎", "五等獎", "六等獎", "七等獎", "八等獎"],
+			index: 0, //当前位置索引
+			times: 0, //次数
+			roundTimes: 0, //圈数
+			timer: 0, //循环器
+			speed: 300, //转动速度
+			isActive: false, //游戏是否在运行
+			Init: function() {
+				///初始化
+				this.roundTimes = 0;
+				this.isActive = true;
+			},
+			Start: function(cls, callback) {
+				var that = this;
+				if(that.isActive == true) {
+					alert('游戏正在进行!');
+					return;
+				}
+//				if(that.times == 4) {
+//					alert('只有四次机会');
+//					return;
+//				}
+				that.Init();
+				var random = parseInt(Math.random() * 8);
+				var interVal = setInterval(function() {
+					if(that.index == 8) {
+						that.index = 0;
+						that.roundTimes++;
+					}
+					if(that.roundTimes == 3) {
+						if(that.index==random){
+							that.isActive = false;
+							clearInterval(that.timer);
+							if(Object.prototype.toString.call(callback) == '[object Function]') {
+								callback.call(this, that.index, that.Msgs[that.index],$('#' + cls + '_' + that.index).find('img').attr('src'));
+							}
+						}
+					} 
+					$('li').removeClass('active');
+					$('#' + cls + '_' + that.index).addClass('active');
+					that.index++;
+					
+				}, 50);
+				that.timer = interVal;
+				that.times++;
+			}
+	}
+		$(function() {
+			$('.btn').click(function() {
+				roll.Start('run', function(index, msg,pdt) {
+					setTimeout(function() {
+//						alert(msg);
+						$('#img_show').attr('src',pdt);
+						$('.mask').fadeIn(500);
+					},300)
+				});
+			});
+			$('.close').click(function (){
+				$('.mask').fadeOut(500);
+			});
+		})
+	</script>
+	
+	<body>
+		<section class="box">
+			<div class="mask">
+				<span class="close">×</span>
+				<div class="zjbg">
+					<div class="goods">
+						<img src="img/shangpin.png" id="img_show"/>
+					</div>
+					<h4>恭喜获得此商品一元夺宝机会</h4>
+					<a href="#" class="btn_url">立即领奖</a>
+					<p class="text">注：此商品仅限一元夺宝APP领取，注册完成后获得抽奖机会。</p>
+					</div>
+				</div>
+			</div>
+			<div class="commodity_box">
+				<div class="grey_bg">
+					<ul class="item">
+						<li id="run_0"><span></span><img src="img/pdt/p1.png" /></li>
+						<li id="run_1"><span></span><img src="img/pdt/p2.png" /></li>
+						<li id="run_2"><span></span><img src="img/pdt/p3.png" /></li>
+						<li id="run_7"><span></span><img src="img/pdt/p4.png" /></li>
+						<li class="btn"><img src="img/button.png" /></li>
+						<li id="run_3"><span></span><img src="img/pdt/p5.png" /></li>
+						<li id="run_6"><span></span><img src="img/pdt/p6.png" /></li>
+						<li id="run_5"><span></span><img src="img/pdt/p7.png" /></li>
+						<li id="run_4"><span></span><img src="img/pdt/p8.png" /></li>
+					</ul>
+				</div>
+			</div>
+		</section>
+		<div class="say">
+			<div class="line">
+				<span>看看大家都中了什么</span>
+			</div>
+				<ul class="list">
+					<li>
+						<p class="li_top">
+							<img src="img/head/0d0bb5b3e0c1856427bc454758bae3bc.jpg"/>
+							<span>明媚的笑着ㄣ</span>
+						</p>
+						<div id="list_content">
+							<p>迪士尼儿童手表男孩 </p>
+							<p>期号：126</p>
+							<div class="pic_box">
+								<img src="img/pdt/tel1.jpg"/>
+								<img src="img/pdt/tel2.jpg"/> 
+							</div>
+						</div>
+					</li>
+					<li>
+						<p class="li_top">
+							<img src="img/head/0fmd9o2r.jpg"/>
+							<span>白手到土豪</span>
+						</p>
+						<div id="list_content">
+							<p>Apple/苹果 iPhone 7 Plus</p>
+							<p>期号：139</p>
+							<div class="pic_box">
+								<img src="img/pdt/phone1.jpg"/>
+								<img src="img/pdt/phone2.jpg"/> 
+							</div>
+						</div>
+					</li>
+					<li>
+						<p class="li_top">
+							<img src="img/head/1b58d1cdff007f1415cc6f00f88fce08.jpg"/>
+							<span>十八季</span>
+						</p>
+						<div id="list_content">
+							<p>Lenovo/联想笔记本电脑</p>
+							<p>期号：157</p>
+							<div class="pic_box">
+								<img src="img/pdt/computer1.jpg"/>
+								<img src="img/pdt/computer2.jpg"/> 
+							</div>
+						</div>
+					</li>
+				</ul>
+		</div>
+	</body>
+
+</html>
